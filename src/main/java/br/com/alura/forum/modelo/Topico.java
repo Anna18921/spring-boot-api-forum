@@ -38,6 +38,16 @@ public class Topico {
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 
 	public Topico () {}
+	
+	
+
+	public Topico(Curso curso, String titulo, String mensagem) {
+		this.curso = curso;
+		this.titulo = titulo;
+		this.mensagem = mensagem;
+	}
+
+
 
 	@Override
 	public int hashCode() {
