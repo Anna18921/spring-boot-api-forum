@@ -9,9 +9,9 @@ import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,15 +32,15 @@ public class TopicosController {
 	private CursoRepository cursoRepository;
 
 	@GetMapping
-	public Page<TopicoDto> listTopics(@RequestParam(required = false) String cursoNome, @RequestParam int page, @RequestParam int qtd, @RequestParam String sort) {
+	public Page<TopicoDto> listTopics(@RequestParam(required = false) String cursoNome, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable pagination) {
 
-		Pageable paginacao = PageRequest.of(page, qtd, Sort.Direction.ASC, sort);
+
 		Page<Topico> topicos;
 
 		if (cursoNome == null) {
-			topicos = topicoRepository.findAll(paginacao);
+			topicos = topicoRepository.findAll(pagination);
 		} else {
-			topicos = topicoRepository.findByCurso_Nome(cursoNome, paginacao);
+			topicos = topicoRepository.findByCurso_Nome(cursoNome, pagination);
 		}
 
 		return TopicoDto.converter(topicos);
