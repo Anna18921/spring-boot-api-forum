@@ -20,8 +20,7 @@ public class TokenService {
     public String create(Authentication auth) {
         Usuario user = (Usuario) auth.getPrincipal();
         Date date = new Date();
-        System.out.println("TESTE"+ expiration +"->"+Long.parseLong(expiration));
-        Date expirationDate = new Date(date.getTime() + Long.parseLong(expiration));
+        Date expirationDate = new Date(date.getTime() + Long.parseLong(this.expiration));
 
         return Jwts.builder()
                 .setIssuer("API Forum Alura")
